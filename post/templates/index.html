@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}首页{% endblock %}
+
+{% block left %}
+    <div id="main">
+
+        {% for post in pagelist.object_list %}
+            <article class="article article-type-post">
+                <div class="article-meta">
+                    <a class="article-date">
+                        <time>{{ post.created | date:'Y-m-d H:i:s' }}</time>
+                    </a>
+                    <div class="article-category">
+                        <a class="article-category-link" href="#" target="_blank">{{ post.category.cname }}</a>
+                    </div>
+                </div>
+                <div class="article-inner">
+                    <header class="article-header">
+                        <h1 itemprop="name">
+                            <a class="article-title" href="#" target="_blank">{{ post.title }}</a>
+                        </h1>
+                    </header>
+                    <div class="article-entry" itemprop="articleBody">
+                        <h2>{{ post.desc }}</h2>
+                        <hr>
+                        &lt;p&gt;&lt;img alt="" sr...
+                        <p>{{ post.desc }}</p>
+
+
+                        <p class="article-more-link">
+                            <a href="/post/{{ post.id }}" target="_blank">阅读全文</a>
+                        </p>
+                    </div>
+                    <footer class="article-footer">
+                        <a data-url="存放文章的url" class="article-share-link">分享</a>
+                        <ul class="article-tag-list">
+
+                            {% for t in post.tag.all %}
+                                <li class="article-tag-list-item">
+                                    <a class="article-tag-list-link" href="#">{{ t.tname }}</a>
+                                </li>
+                            {% endfor %}
+
+                            <li class="article-tag-list-item">
+                                <a class="article-tag-list-link" href="#">Python</a>
+                            </li>
+
+                        </ul>
+                    </footer>
+                </div>
+            </article>
+        {% endfor %}
+
+
+
+
+        <nav id="page-nav">
+            {% if pagelist.has_previous %}
+                <a class="extend prev" rel="prev" href="/{{ pagelist.previous_page_number }}"><< previous</a>
+            {% endif %}
+
+            {% for page in paginator.page_range %}
+                {% if page == num %}
+                    <span class="page-number current">{{ page }}</span>
+                {% else %}
+{#                    <a class="page-number" href="http://127.0.0.1:8000?num={{ page }}">{{ page }}</a>#}
+                        <a class="page-number" href="/{{ page }}">{{ page }}</a>
+                {% endif %}
+
+            {% endfor %}
+            {% if pagelist.has_next %}
+                <a class="extend next" rel="next" href="/{{ pagelist.next_page_number }}">Next
+                    »</a>
+            {% endif %}
+
+
+        </nav>
+
+
+    </div>
+
+{% endblock %}
